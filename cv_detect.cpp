@@ -40,6 +40,9 @@ Mat CV_Detect::MakeSelection(Mat frame, Mat mask, Mat show, int c)
 
 Mat CV_Detect::ColorFilter(Mat frame, CV_SettingsWidget *W, int c)
 {
+    if(W->On_Off[c]==false)
+        return frame;
+
     Mat mask(frame.clone());
     Mat show(mask.rows, mask.cols, CV_8UC3, Scalar::all(0));//0
     inRange(frame

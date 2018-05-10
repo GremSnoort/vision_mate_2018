@@ -53,10 +53,24 @@ public:
     QScopedPointer<QPushButton> b_setDefoltBLUE;
     QScopedPointer<QPushButton> b_setDefoltBLACK;
 
+    QScopedPointer<QPushButton> b_offRED;
+    QScopedPointer<QPushButton> b_offYELLOW;
+    QScopedPointer<QPushButton> b_offBLUE;
+    QScopedPointer<QPushButton> b_offBLACK;
+
+    QScopedPointer<QPushButton> b_onRED;
+    QScopedPointer<QPushButton> b_onYELLOW;
+    QScopedPointer<QPushButton> b_onBLUE;
+    QScopedPointer<QPushButton> b_onBLACK;
+
+
+
     QScopedPointer<QLabel> l_debug;
     QScopedPointer<QComboBox> cb_debugColor;
 
     QScopedPointer<QList<default_color*>> defolt;
+
+    on_off On_Off;
 
     int R_top()
     {
@@ -86,7 +100,7 @@ public:
     int B_bottom()
     {
         return this->s_BlueChannelBOTTOM.data()->value();
-    }
+    }    
 
     default_color GetCurrentColor();
 
@@ -108,6 +122,46 @@ public slots:
     void ShowBLACK();
 
     void cb_answer(int index);
+
+    ///_____________________________________________________________________________
+
+    void OnRED()
+    {
+        On_Off.red = true;
+    }
+    void OffRED()
+    {
+        On_Off.red = false;
+    }
+
+    void OnYELLOW()
+    {
+        On_Off.yellow = true;
+    }
+    void OffYELLOW()
+    {
+        On_Off.yellow = false;
+    }
+
+    void OnBLUE()
+    {
+        On_Off.blue = true;
+    }
+    void OffBLUE()
+    {
+        On_Off.blue = false;
+    }
+
+    void OnBLACK()
+    {
+        On_Off.black = true;
+    }
+    void OffBLACK()
+    {
+        On_Off.black = false;
+    }
+
+    ///_____________________________________________________________________________
 };
 
 #endif // CV_SETTINGSWIDGET_H

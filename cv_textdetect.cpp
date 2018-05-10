@@ -7,7 +7,7 @@ CV_TextDetect::CV_TextDetect()
 
 Mat CV_TextDetect::Detect(Mat frame, CV_SettingsWidget *W)
 {
-    frame = frame(Rect(frame.cols*0.05, 0, frame.cols*0.9, frame.rows*0.95));
+    frame = frame(Rect(frame.cols*0.05, 0, frame.cols*0.67, frame.rows*0.75));
     cvtColor(frame, frame, CV_BGR2RGB);
     Mat showBlack = CV_Detect::ColorFilter(frame, W, 0);
 

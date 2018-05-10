@@ -9,6 +9,8 @@ enum type
     TYPE_FIGURE
 };
 
+Q_DECLARE_METATYPE(type)
+
 enum figureColor
 {
     RED_ = 1,
@@ -16,6 +18,8 @@ enum figureColor
     BLUE_ = 3,
     BLACK_ = 0
 };
+
+Q_DECLARE_METATYPE(figureColor)
 
 struct color
 {
@@ -37,6 +41,8 @@ struct color
         return false;
     }
 };
+
+Q_DECLARE_METATYPE(color)
 
 struct default_color
 {
@@ -61,9 +67,39 @@ struct default_color
     }
 };
 
-Q_DECLARE_METATYPE(figureColor)
-Q_DECLARE_METATYPE(type)
-Q_DECLARE_METATYPE(color)
 Q_DECLARE_METATYPE(default_color)
+
+struct on_off
+{
+    bool red;
+    bool yellow;
+    bool blue;
+    bool black;
+
+    on_off(bool r = true, bool y = true, bool bl = true, bool blk = true)
+    {
+        red = r;
+        yellow = y;
+        blue = bl;
+        black = blk;
+    }
+
+    bool &operator [] ( int i )
+    {
+       if(i==0)
+           return black;
+
+       if(i==1)
+           return red;
+
+       if(i==2)
+           return yellow;
+
+       if(i==3)
+           return blue;
+    }
+};
+
+Q_DECLARE_METATYPE(on_off)
 
 #endif // CV_DATATYPES_H

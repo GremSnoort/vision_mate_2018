@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget* parent)
     createMenus();
     createConnections();
     setCentralWidget(m_cameraWidget.data());
-    setMinimumSize(740, 500);
+    setMinimumSize(600, 530);
     setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/res/ic.jpg"));
 }
 

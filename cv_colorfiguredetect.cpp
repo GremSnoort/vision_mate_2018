@@ -7,7 +7,7 @@ CV_ColorFigureDetect::CV_ColorFigureDetect()
 
 Mat CV_ColorFigureDetect::Debug(Mat frame_, CV_SettingsWidget *W)
 {
-    Mat frame = frame_(Rect(frame_.cols*0.05, 0, frame_.cols*0.95, frame_.rows*0.95));
+    Mat frame = frame_(Rect(frame_.cols*0.05, 0, frame_.cols*0.67, frame_.rows*0.75));
     cv::cvtColor(frame, frame, CV_BGR2RGB);
 
     Mat debugMat = CV_Detect::debug(frame, W);
@@ -39,7 +39,7 @@ Mat CV_ColorFigureDetect::Debug(Mat frame_, CV_SettingsWidget *W)
 Mat CV_ColorFigureDetect::Detect(Mat frame_, CV_SettingsWidget *W)
 {
     Mat frame = frame_.clone();
-    frame = frame(Rect(frame_.cols*0.05, 0, frame_.cols*0.9, frame_.rows*0.95));
+    frame = frame(Rect(frame_.cols*0.05, 0, frame_.cols*0.67, frame_.rows*0.75));
     cv::cvtColor(frame, frame, CV_BGR2RGB);
 
     Mat showRed = CV_Detect::ColorFilter(frame, W, 1);
