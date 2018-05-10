@@ -13,6 +13,7 @@
 #include <QPainter>
 #include <QFile>
 #include <QTextStream>
+#include <QCheckBox>
 
 #include "cv_datatypes.h"
 
@@ -53,17 +54,10 @@ public:
     QScopedPointer<QPushButton> b_setDefoltBLUE;
     QScopedPointer<QPushButton> b_setDefoltBLACK;
 
-    QScopedPointer<QPushButton> b_offRED;
-    QScopedPointer<QPushButton> b_offYELLOW;
-    QScopedPointer<QPushButton> b_offBLUE;
-    QScopedPointer<QPushButton> b_offBLACK;
-
-    QScopedPointer<QPushButton> b_onRED;
-    QScopedPointer<QPushButton> b_onYELLOW;
-    QScopedPointer<QPushButton> b_onBLUE;
-    QScopedPointer<QPushButton> b_onBLACK;
-
-
+    QScopedPointer<QCheckBox> b_onRED;
+    QScopedPointer<QCheckBox> b_onYELLOW;
+    QScopedPointer<QCheckBox> b_onBLUE;
+    QScopedPointer<QCheckBox> b_onBLACK;
 
     QScopedPointer<QLabel> l_debug;
     QScopedPointer<QComboBox> cb_debugColor;
@@ -125,40 +119,24 @@ public slots:
 
     ///_____________________________________________________________________________
 
-    void OnRED()
+    void OnRED(int state)
     {
-        On_Off.red = true;
-    }
-    void OffRED()
-    {
-        On_Off.red = false;
+        On_Off.red = bool(state);
     }
 
-    void OnYELLOW()
+    void OnYELLOW(int state)
     {
-        On_Off.yellow = true;
-    }
-    void OffYELLOW()
-    {
-        On_Off.yellow = false;
+        On_Off.yellow = bool(state);
     }
 
-    void OnBLUE()
+    void OnBLUE(int state)
     {
-        On_Off.blue = true;
-    }
-    void OffBLUE()
-    {
-        On_Off.blue = false;
+        On_Off.blue = bool(state);
     }
 
-    void OnBLACK()
+    void OnBLACK(int state)
     {
-        On_Off.black = true;
-    }
-    void OffBLACK()
-    {
-        On_Off.black = false;
+        On_Off.black = bool(state);
     }
 
     ///_____________________________________________________________________________

@@ -26,15 +26,10 @@ CV_SettingsWidget::CV_SettingsWidget(QWidget *parent)
     , b_setDefoltBLUE(new QPushButton("Set defolt BLUE", this))
     , b_setDefoltBLACK(new QPushButton("Set defolt BLACK", this))
 
-    , b_offRED(new QPushButton("OFF", this))
-    , b_offYELLOW(new QPushButton("OFF", this))
-    , b_offBLUE(new QPushButton("OFF", this))
-    , b_offBLACK(new QPushButton("OFF", this))
-
-    , b_onRED(new QPushButton("ON", this))
-    , b_onYELLOW(new QPushButton("ON", this))
-    , b_onBLUE(new QPushButton("ON", this))
-    , b_onBLACK(new QPushButton("ON", this))
+    , b_onRED(new QCheckBox("ON", this))
+    , b_onYELLOW(new QCheckBox("ON", this))
+    , b_onBLUE(new QCheckBox("ON", this))
+    , b_onBLACK(new QCheckBox("ON", this))
 
     , l_debug(new QLabel("for debug mode: ", this))
     , cb_debugColor(new QComboBox(this))
@@ -68,15 +63,10 @@ CV_SettingsWidget::CV_SettingsWidget(QWidget *parent)
 
     ///__________________________
 
-    connect(b_onRED.data(), &QPushButton::released, this, &CV_SettingsWidget::OnRED);
-    connect(b_onYELLOW.data(), &QPushButton::released, this, &CV_SettingsWidget::OnYELLOW);
-    connect(b_onBLUE.data(), &QPushButton::released, this, &CV_SettingsWidget::OnBLUE);
-    connect(b_onBLACK.data(), &QPushButton::released, this, &CV_SettingsWidget::OnBLACK);
-
-    connect(b_offRED.data(), &QPushButton::released, this, &CV_SettingsWidget::OffRED);
-    connect(b_offYELLOW.data(), &QPushButton::released, this, &CV_SettingsWidget::OffYELLOW);
-    connect(b_offBLUE.data(), &QPushButton::released, this, &CV_SettingsWidget::OffBLUE);
-    connect(b_offBLACK.data(), &QPushButton::released, this, &CV_SettingsWidget::OffBLACK);
+    connect(b_onRED.data(), &QCheckBox::stateChanged, this, &CV_SettingsWidget::OnRED);
+    connect(b_onYELLOW.data(), &QCheckBox::stateChanged, this, &CV_SettingsWidget::OnYELLOW);
+    connect(b_onBLUE.data(), &QCheckBox::stateChanged, this, &CV_SettingsWidget::OnBLUE);
+    connect(b_onBLACK.data(), &QCheckBox::stateChanged, this, &CV_SettingsWidget::OnBLACK);
 
     ///__________________________
 
@@ -359,26 +349,17 @@ void CV_SettingsWidget::CreateLayout()
     layout->addWidget(b_setDefoltBLUE.data(), 12, 1);
     layout->addWidget(b_setDefoltBLACK.data(), 13, 1);
 
-    ///___________________________________________________________________________
+    ///___________________________________________________________________________        
 
-    b_onRED->setStyleSheet("background-color: rgb(255, 12, 12);");
-    b_offRED->setStyleSheet("background-color: rgb(255, 12, 12);");
-
-    b_onYELLOW->setStyleSheet("background-color: rgb(255, 255, 12); color: rgb(0, 0, 0);");
-    b_offYELLOW->setStyleSheet("background-color: rgb(255, 255, 12); color: rgb(0, 0, 0);");
-
-    b_onBLUE->setStyleSheet("background-color: rgb(12, 12, 255);");
-    b_offBLUE->setStyleSheet("background-color: rgb(12, 12, 255);");
+    b_onRED.data()->setChecked(true);
+    b_onYELLOW.data()->setChecked(true);
+    b_onBLUE.data()->setChecked(true);
+    b_onBLACK.data()->setChecked(true);
 
     layout->addWidget(b_onRED.data(), 10, 2);
     layout->addWidget(b_onYELLOW.data(), 11, 2);
     layout->addWidget(b_onBLUE.data(), 12, 2);
     layout->addWidget(b_onBLACK.data(), 13, 2);
-
-    layout->addWidget(b_offRED.data(), 10, 3);
-    layout->addWidget(b_offYELLOW.data(), 11, 3);
-    layout->addWidget(b_offBLUE.data(), 12, 3);
-    layout->addWidget(b_offBLACK.data(), 13, 3);
 
     QStringList str;
     str<<"try RED"<<"try YELLOW"<<"try BLUE"<<"try BLACK";
