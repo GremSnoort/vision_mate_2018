@@ -14,6 +14,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QCheckBox>
+#include <QFileDialog>
 
 #include "cv_datatypes.h"
 
@@ -59,6 +60,8 @@ public:
     QScopedPointer<QCheckBox> b_onBLUE;
     QScopedPointer<QCheckBox> b_onBLACK;
 
+    QScopedPointer<QPushButton> b_save_config;
+
     QScopedPointer<QLabel> l_debug;
     QScopedPointer<QComboBox> cb_debugColor;
 
@@ -100,7 +103,7 @@ public:
 
     void readColors();
 
-    void updateColors();
+    void updateColors(QString filename);
 
 signals:
 
@@ -116,6 +119,8 @@ public slots:
     void ShowBLACK();
 
     void cb_answer(int index);
+
+    void save_cfg();
 
     ///_____________________________________________________________________________
 

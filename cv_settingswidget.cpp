@@ -31,6 +31,8 @@ CV_SettingsWidget::CV_SettingsWidget(QWidget *parent)
     , b_onBLUE(new QCheckBox("ON", this))
     , b_onBLACK(new QCheckBox("ON", this))
 
+    , b_save_config(new QPushButton("SAVE .cfg", this))
+
     , l_debug(new QLabel("for debug mode: ", this))
     , cb_debugColor(new QComboBox(this))
 
@@ -71,6 +73,8 @@ CV_SettingsWidget::CV_SettingsWidget(QWidget *parent)
     ///__________________________
 
     connect(cb_debugColor.data(), SIGNAL(currentIndexChanged(int)), this, SLOT(cb_answer(int)));
+
+    connect(b_save_config.data(), &QPushButton::released, this, &CV_SettingsWidget::save_cfg);
 
     CreateLayout();
 
@@ -122,9 +126,9 @@ void CV_SettingsWidget::readColors()
 
 }
 
-void CV_SettingsWidget::updateColors()
+void CV_SettingsWidget::updateColors(QString filename)
 {
-    QFile file(QCoreApplication::applicationDirPath()+"/res/colors.cfg");
+    QFile file(filename);
     if (!file.open(QIODevice::WriteOnly))
         return;
     QTextStream out(&file);
@@ -176,6 +180,13 @@ void CV_SettingsWidget::updateColors()
         << " "
         << defolt_BLACK.B.top
         << "\r\n";
+}
+
+void CV_SettingsWidget::save_cfg()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить файл"), "colors_.cfg", tr("Cfg (*.cfg)"));
+
+    updateColors(fileName);
 }
 
 void CV_SettingsWidget::cb_answer(int index)
@@ -252,7 +263,7 @@ void CV_SettingsWidget::SetDefoltRED()
     defolt_RED.B.top = s_BlueChannelTOP.data()->value();
     defolt_RED.B.bottom = s_BlueChannelBOTTOM.data()->value();
 
-    updateColors();
+    updateColors(QCoreApplication::applicationDirPath()+"/res/colors.cfg");
 }
 
 void CV_SettingsWidget::SetDefoltYELLOW()
@@ -266,7 +277,7 @@ void CV_SettingsWidget::SetDefoltYELLOW()
     defolt_YELLOW.B.top = s_BlueChannelTOP.data()->value();
     defolt_YELLOW.B.bottom = s_BlueChannelBOTTOM.data()->value();
 
-    updateColors();
+    updateColors(QCoreApplication::applicationDirPath()+"/res/colors.cfg");
 }
 
 void CV_SettingsWidget::SetDefoltBLUE()
@@ -280,7 +291,7 @@ void CV_SettingsWidget::SetDefoltBLUE()
     defolt_BLUE.B.top = s_BlueChannelTOP.data()->value();
     defolt_BLUE.B.bottom = s_BlueChannelBOTTOM.data()->value();
 
-    updateColors();
+    updateColors(QCoreApplication::applicationDirPath()+"/res/colors.cfg");
 }
 
 void CV_SettingsWidget::SetDefoltBLACK()
@@ -294,7 +305,7 @@ void CV_SettingsWidget::SetDefoltBLACK()
     defolt_BLACK.B.top = s_BlueChannelTOP.data()->value();
     defolt_BLACK.B.bottom = s_BlueChannelBOTTOM.data()->value();
 
-    updateColors();
+    updateColors(QCoreApplication::applicationDirPath()+"/res/colors.cfg");
 }
 
 void CV_SettingsWidget::CreateLayout()
@@ -367,6 +378,8 @@ void CV_SettingsWidget::CreateLayout()
 
     layout->addWidget(l_debug.data(), 14, 0);
     layout->addWidget(cb_debugColor.data(), 14, 1);
+
+    layout->addWidget(b_save_config.data(), 14, 2);
 
     layout->setRowMinimumHeight(11, 50);
     layout->setRowMinimumHeight(12, 50);

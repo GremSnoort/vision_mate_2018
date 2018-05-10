@@ -48,11 +48,11 @@ Mat CV_ColorFigureDetect::Detect(Mat frame_, CV_SettingsWidget *W)
 
     Mat show;
 
-    if(CV_Detect::COLOR == RED_)
+    if(W->On_Off.red==true && CV_Detect::COLOR == RED_)
         show = showRed;
-    else if(CV_Detect::COLOR == YELLOW_)
+    else if(W->On_Off.yellow==true && CV_Detect::COLOR == YELLOW_)
         show = showYellow;
-    else if(CV_Detect::COLOR == BLUE_)
+    else if(W->On_Off.blue==true && CV_Detect::COLOR == BLUE_)
         show = showBlue;
     else
     {

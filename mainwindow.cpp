@@ -13,9 +13,10 @@ MainWindow::MainWindow(QWidget* parent)
     logWidget = new QTextEdit;
     createActions();
     createMenus();
+    createDocks();
     createConnections();
     setCentralWidget(m_cameraWidget.data());
-    setMinimumSize(600, 530);
+    setMinimumSize(800, 530);
     setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+"/res/ic.jpg"));
 }
 
@@ -26,6 +27,18 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 
 MainWindow::~MainWindow() {}
+
+void MainWindow::createDocks()
+{
+    QMenu* view = menuBar()->addMenu(tr("&Вид"));
+
+    QDockWidget* logDock = new QDockWidget(tr("Информация"), this);
+    logDock->setObjectName("LogDockWidget");
+    logDock->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
+    logDock->setWidget(logWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, logDock);
+    view->addAction(logDock->toggleViewAction());
+}
 
 void MainWindow::createMenus()
 {
