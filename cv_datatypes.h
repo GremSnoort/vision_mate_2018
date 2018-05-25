@@ -2,6 +2,7 @@
 #define CV_DATATYPES_H
 
 #include <QObject>
+#include <stdexcept>
 
 enum type
 {
@@ -89,14 +90,16 @@ struct on_off
        if(i==0)
            return black;
 
-       if(i==1)
+       else if(i==1)
            return red;
 
-       if(i==2)
+       else if(i==2)
            return yellow;
 
-       if(i==3)
+       else if(i==3)
            return blue;
+       else
+           throw std::invalid_argument("Incorrect index");
     }
 };
 

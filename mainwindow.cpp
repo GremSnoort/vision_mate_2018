@@ -30,9 +30,9 @@ MainWindow::~MainWindow() {}
 
 void MainWindow::createDocks()
 {
-    QMenu* view = menuBar()->addMenu(tr("&Вид"));
+    QMenu* view = menuBar()->addMenu(tr("&View"));
 
-    QDockWidget* logDock = new QDockWidget(tr("Информация"), this);
+    QDockWidget* logDock = new QDockWidget(tr("Info"), this);
     logDock->setObjectName("LogDockWidget");
     logDock->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable);
     logDock->setWidget(logWidget);
@@ -42,7 +42,7 @@ void MainWindow::createDocks()
 
 void MainWindow::createMenus()
 {
-    QMenu* camera = menuBar()->addMenu(tr("Камера"));
+    QMenu* camera = menuBar()->addMenu(tr("Camera"));
     camera->addAction(m_startCameraAct.data());
     camera->addAction(m_stopCameraAct.data());
     camera->addAction(m_startDetectMode.data());
@@ -82,15 +82,15 @@ void MainWindow::createConnections()
 
 void MainWindow::createActions()
 {
-    m_startCameraAct.reset(new QAction(tr("Начать захват изображения"), this));
-    m_stopCameraAct.reset(new QAction(tr("Остановить захват изображения"), this));
+    m_startCameraAct.reset(new QAction(tr("Start capture"), this));
+    m_stopCameraAct.reset(new QAction(tr("Stop capture"), this));
 
-    m_startDetectMode.reset(new QAction(tr("Начать распознавание"), this));
-    m_stopDetectMode.reset(new QAction(tr("Остановить распознавание"), this));
-    m_startDebug.reset(new QAction(tr("Начать отладку"), this));
-    m_stopDebug.reset(new QAction(tr("Завершить отладку"), this));
+    m_startDetectMode.reset(new QAction(tr("Start detection"), this));
+    m_stopDetectMode.reset(new QAction(tr("Stop detection"), this));
+    m_startDebug.reset(new QAction(tr("Start debug"), this));
+    m_stopDebug.reset(new QAction(tr("Stop debug"), this));
 
-    m_takeScreenshot.reset(new QAction(tr("Скриншот")));
+    m_takeScreenshot.reset(new QAction(tr("Prt Sc")));
 
     m_startCameraAct->setShortcut(tr("Ctrl+A"));
     m_stopCameraAct->setShortcut(tr("Ctrl+X"));

@@ -42,7 +42,7 @@ void RovCameraWidget::stop()
 void RovCameraWidget::takeScreenshot()
 {
     QPixmap pm = m_cameraView->grab(QRect(0, 0, m_cameraView->size().width(), m_cameraView->size().height()));
-    pm.save("//DESKTOP-3I4GEIE/Users/Public/Pictures/screen"+QString::number(count)+".jpg", "JPG");
+    pm.save("C:/Users/Eva/Desktop/PIC TO TD/WORK/screen"+QString::number(count)+".jpg", "JPG");////DESKTOP-3I4GEIE/Users/Public/Pictures/screen
     count+=1;
 }
 
