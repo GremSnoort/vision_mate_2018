@@ -14,6 +14,7 @@
 
 #include "cv_colorfiguredetect.h"
 #include "cv_textdetect.h"
+#include "new_neuralnet.h"
 
 using namespace cv;
 
@@ -53,6 +54,8 @@ public slots:
     void stopDebug();
 
     void takeScreenshot();
+
+    void Generate();
 
     QCamera::Status cameraStatus();
 

@@ -63,8 +63,6 @@ Mat CV_TextDetect::Detect(Mat frame, CV_SettingsWidget *W)
 
     if(     abs(1.0 - h0/h1)<=0.35 &&
             abs(1.0 - h0/h2)<=0.35
-            //&& abs(1.0 - w0/w1)<=0.5 &&
-            //abs(1.0 - w0/w2)<=0.5
             )
     {
 
@@ -78,19 +76,11 @@ Mat CV_TextDetect::Detect(Mat frame, CV_SettingsWidget *W)
             int RES = 0;
             int num = 0;
 
-            /*double d1 = part_origin.rows;
-            double d2 = part_origin.cols;
-            double dor = d1/d2;
-            qDebug()<<i << "___" <<dor;*/
 
             for(int j = 0; j<6; j++)///проверка шести шаблонов
             {
-                //
                 Mat part;
                 part_tmpl = CV_TextDetect::tmpl_arr[j+i*6];
-
-                //qDebug()<<i<<"  "<<i+NUMS.size()*6 << "___" << part_origin.rows/part_origin.cols <<" __ " << part_tmpl.rows/part_tmpl.cols;
-
 
                 double d1 = part_origin.rows;
                 double d2 = part_origin.cols;
@@ -100,8 +90,6 @@ Mat CV_TextDetect::Detect(Mat frame, CV_SettingsWidget *W)
                     break;
                 double dor = d1/d2;
                 double dtm = d01/d02;
-
-                //qDebug()<<i<<"  "<<j+i*6 << "___" <<dor<<"  "<<dtm;
 
                 if(dor>4.5)
                 {
@@ -117,9 +105,6 @@ Mat CV_TextDetect::Detect(Mat frame, CV_SettingsWidget *W)
 
                 if(abs(dor-dtm)>0.3)
                     continue;
-
-                /*if( != )
-                    continue;*/
 
                 resize(part_origin, part, part_tmpl.size());
 
@@ -209,62 +194,6 @@ Mat CV_TextDetect::PrintAns(Mat show, QList<int> NUMS)
         CV_Detect::TYPE = TYPE_TEXT;
         putText(show, "C",  Point2i(50,100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(0, 0, 255), 2);
     }
-
-
-
-    //else 142 242 442 - D   412
-
-    /*else if((NUMS.at(0)==1 && NUMS.at(1)==1)
-            || (NUMS.at(0)==1 && NUMS.at(2)==1)
-            || (NUMS.at(1)==1 && NUMS.at(2)==1))
-    {
-        CV_Detect::TYPE = TYPE_TEXT;
-        putText(show, "B",  Point2i(50,100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(255, 255, 0), 2);
-    }*/
-
-
-
-
-
-
-
-    /*if((NUMS.at(0)==NUMS.at(1))
-            || (NUMS.at(0)&&NUMS.at(2))
-            || (NUMS.at(1)&&NUMS.at(2)))
-        CV_Detect::TYPE = TYPE_TEXT;
-
-
-
-    if((NUMS.at(0)==0 && NUMS.at(1)==0)
-            || (NUMS.at(0)==0 && NUMS.at(2)==0)
-            || (NUMS.at(1)==0 && NUMS.at(2)==0))
-        putText(show, "A",  Point2i(50,100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(255, 0, 0), 2);
-
-    else if((NUMS.at(0)==1 && NUMS.at(1)==1)
-            || (NUMS.at(0)==1 && NUMS.at(2)==1)
-            || (NUMS.at(1)==1 && NUMS.at(2)==1))
-        putText(show, "B",  Point2i(50,100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(255, 255, 0), 2);
-
-    else if((NUMS.at(0)==2 && NUMS.at(1)==2)
-            || (NUMS.at(0)==2 && NUMS.at(2)==2)
-            || (NUMS.at(1)==2 && NUMS.at(2)==2))
-        putText(show, "C",  Point2i(50,100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(0, 0, 255), 2);
-
-
-    else if((NUMS.at(1)==3) || (NUMS.at(0)==3 && NUMS.at(1)==3)
-            || (NUMS.at(0)==3 && NUMS.at(2)==3)
-            || (NUMS.at(1)==3 && NUMS.at(2)==3))
-        putText(show, "D",  Point2i(50,100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(255, 0, 0), 2);
-
-    else if((NUMS.at(1)==4) || (NUMS.at(0)==4 && NUMS.at(1)==4)
-            || (NUMS.at(0)==4 && NUMS.at(2)==4)
-            || (NUMS.at(1)==4 && NUMS.at(2)==4))
-        putText(show, "E",  Point2i(50,100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(255, 255, 0), 2);
-
-    else if((NUMS.at(0)==5 && NUMS.at(1)==5)
-            || (NUMS.at(0)==5 && NUMS.at(2)==5)
-            || (NUMS.at(1)==5 && NUMS.at(2)==5))
-        putText(show, "F",  Point2i(50,100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(0, 0, 255), 2);*/
 
     return show;
 }

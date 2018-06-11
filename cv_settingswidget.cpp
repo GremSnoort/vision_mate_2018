@@ -33,6 +33,17 @@ CV_SettingsWidget::CV_SettingsWidget(QWidget *parent)
 
     , b_save_config(new QPushButton("SAVE .cfg", this))
 
+
+    , UH8(new QRadioButton("UH8", this))
+    , L6R(new QRadioButton("L6R", this))
+    , G7C(new QRadioButton("G7C", this))
+    , S1P(new QRadioButton("S1P", this))
+    , JW3(new QRadioButton("JW3", this))
+    , A2X(new QRadioButton("A2X", this))
+
+    , Generate(new QPushButton("Generate", this))
+
+
     , l_debug(new QLabel("for debug mode: ", this))
     , cb_debugColor(new QComboBox(this))
 
@@ -371,6 +382,18 @@ void CV_SettingsWidget::CreateLayout()
     layout->addWidget(b_onYELLOW.data(), 11, 2);
     layout->addWidget(b_onBLUE.data(), 12, 2);
     layout->addWidget(b_onBLACK.data(), 13, 2);
+
+
+
+    layout->addWidget(UH8.data(), 4, 3);
+    layout->addWidget(L6R.data(), 7, 3);
+    layout->addWidget(G7C.data(), 10, 3);
+    layout->addWidget(S1P.data(), 11, 3);
+    layout->addWidget(JW3.data(), 12, 3);
+    layout->addWidget(A2X.data(), 13, 3);
+
+
+    layout->addWidget(Generate.data(), 0, 3);
 
     QStringList str;
     str<<"try RED"<<"try YELLOW"<<"try BLUE"<<"try BLACK";

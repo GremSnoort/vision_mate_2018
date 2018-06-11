@@ -15,6 +15,7 @@
 #include <QTextStream>
 #include <QCheckBox>
 #include <QFileDialog>
+#include <QRadioButton>
 
 #include "cv_datatypes.h"
 
@@ -62,6 +63,24 @@ public:
 
     QScopedPointer<QPushButton> b_save_config;
 
+
+
+    ///_________________________________________________________________
+
+
+    QScopedPointer<QRadioButton> UH8;
+    QScopedPointer<QRadioButton> L6R;
+    QScopedPointer<QRadioButton> G7C;
+    QScopedPointer<QRadioButton> S1P;
+    QScopedPointer<QRadioButton> JW3;
+    QScopedPointer<QRadioButton> A2X;
+
+    QScopedPointer<QPushButton> Generate;
+
+
+    ///_________________________________________________________________
+
+
     QScopedPointer<QLabel> l_debug;
     QScopedPointer<QComboBox> cb_debugColor;
 
@@ -98,6 +117,22 @@ public:
     {
         return this->s_BlueChannelBOTTOM.data()->value();
     }    
+
+    int ChoosenTmpl()
+    {
+        if(UH8->isChecked())
+            return 1;
+        if(L6R->isChecked())
+            return 2;
+        if(G7C->isChecked())
+            return 3;
+        if(S1P->isChecked())
+            return 4;
+        if(JW3->isChecked())
+            return 5;
+        if(A2X->isChecked())
+            return 6;
+    }
 
     default_color GetCurrentColor();
 
@@ -143,6 +178,8 @@ public slots:
     {
         On_Off.black = bool(state);
     }
+
+
 
     ///_____________________________________________________________________________
 };

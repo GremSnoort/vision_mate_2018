@@ -30,7 +30,8 @@ SOURCES += \
         cv_colorfiguredetect.cpp \
         cv_detect.cpp \
         cv_settingswidget.cpp \
-        cv_textdetect.cpp
+        cv_textdetect.cpp \
+    new_neuralnet.cpp
 
 HEADERS += \
         mainwindow.hpp \
@@ -39,7 +40,8 @@ HEADERS += \
         cv_datatypes.h \
         cv_detect.h \
         cv_settingswidget.h \
-        cv_textdetect.h
+        cv_textdetect.h \
+    new_neuralnet.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/thirdpaty/opencv/build/x64/vc15/lib/ -lopencv_world340
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/thirdpaty/opencv/build/x64/vc15/lib/ -lopencv_world340d

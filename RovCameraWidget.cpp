@@ -28,6 +28,17 @@ RovCameraWidget::RovCameraWidget(QWidget* parent)
     createCameraViewWidget();
     createConnections();
     setCurrentIndex(WidgetType::CameraSelectionWidget);
+
+    connect(m_settings->Generate.data(), &QPushButton::released, this, &RovCameraWidget::Generate);
+}
+
+void RovCameraWidget::Generate()
+{
+    if(m_camera)
+    {
+        Mat frame = convert();
+        NEW_neuralNet::Generate(frame, m_settings.data());
+    }
 }
 
 void RovCameraWidget::stop()
