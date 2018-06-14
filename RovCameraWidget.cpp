@@ -83,12 +83,13 @@ void RovCameraWidget::Detect()
 
     Mat frame = convert();
     Mat showimg = CV_ColorFigureDetect::Detect(frame, m_settings.data());
-    Mat showtxt = CV_TextDetect::Detect(frame, m_settings.data());
+    Mat shownew = NEW_neuralNet::Detect(frame, m_settings.data());
+    //Mat showtxt = CV_TextDetect::Detect(frame, m_settings.data());
 
     if(CV_Detect::TYPE == TYPE_FIGURE)
         imshow("detect", showimg);
-    else if(CV_Detect::TYPE == TYPE_TEXT)
-        imshow("detect", showtxt);
+    //else if(CV_Detect::TYPE == TYPE_TEXT)
+       // imshow("detect", showtxt);
     else imshow("detect",  frame);
 
 }

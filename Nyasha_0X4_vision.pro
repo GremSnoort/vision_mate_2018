@@ -41,7 +41,8 @@ HEADERS += \
         cv_detect.h \
         cv_settingswidget.h \
         cv_textdetect.h \
-    new_neuralnet.h
+    new_neuralnet.h \
+    cv_datatypes.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/thirdpaty/opencv/build/x64/vc15/lib/ -lopencv_world340
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/thirdpaty/opencv/build/x64/vc15/lib/ -lopencv_world340d

@@ -17,6 +17,12 @@ public:
 
     //static QList<int[][]> tmpl_arr;
 
+    static QList<RECT> GetRects(Mat show);
+
+    static bool PropertiesAreValid(QList<RECT> rectList);
+
+    static Mat Detect(Mat frame, CV_SettingsWidget* W);
+
     static void Generate(Mat frame, CV_SettingsWidget* W);
 };
 

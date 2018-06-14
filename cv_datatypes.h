@@ -1,16 +1,27 @@
 #ifndef CV_DATATYPES_H
 #define CV_DATATYPES_H
 
+#include <opencv2/opencv.hpp>
 #include <QObject>
 #include <stdexcept>
+
+struct RECT
+{
+    cv::Rect rect;
+    int rectpos;
+
+    RECT(cv::Rect r = cv::Rect(0, 0, 0, 0), int rp = 0)
+    {
+        rect = r;
+        rectpos = rp;
+    }
+};
 
 enum type
 {
     TYPE_TEXT,
     TYPE_FIGURE
 };
-
-Q_DECLARE_METATYPE(type)
 
 enum figureColor
 {
@@ -19,8 +30,6 @@ enum figureColor
     BLUE_ = 3,
     BLACK_ = 0
 };
-
-Q_DECLARE_METATYPE(figureColor)
 
 struct color
 {
@@ -42,8 +51,6 @@ struct color
         return false;
     }
 };
-
-Q_DECLARE_METATYPE(color)
 
 struct default_color
 {
@@ -67,9 +74,6 @@ struct default_color
         return false;
     }
 };
-
-Q_DECLARE_METATYPE(default_color)
-
 struct on_off
 {
     bool red;
@@ -103,6 +107,14 @@ struct on_off
     }
 };
 
+
+
+Q_DECLARE_METATYPE(RECT)
+Q_DECLARE_METATYPE(type)
+Q_DECLARE_METATYPE(figureColor)
+Q_DECLARE_METATYPE(color)
+Q_DECLARE_METATYPE(default_color)
 Q_DECLARE_METATYPE(on_off)
+
 
 #endif // CV_DATATYPES_H

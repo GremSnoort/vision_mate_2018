@@ -145,7 +145,7 @@ Mat CV_TextDetect::Detect(Mat frame, CV_SettingsWidget *W)
 
             if (NUMS.size()==3)
             {
-                qDebug()<<"  "<<NUMS.at(0)+1<<" "<<NUMS.at(1)+1<<" "<<NUMS.at(2)+1;
+                //qDebug()<<"  "<<NUMS.at(0)+1<<" "<<NUMS.at(1)+1<<" "<<NUMS.at(2)+1;
                 show = CV_TextDetect::PrintAns(show, NUMS);
 
                 break;

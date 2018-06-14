@@ -6,7 +6,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 
-#include <opencv2/opencv.hpp>
+#include "cv_datatypes.h"
 
 #include "cv_settingswidget.h"
 
