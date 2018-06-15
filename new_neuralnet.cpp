@@ -96,135 +96,178 @@ Mat NEW_neuralNet::Detect(Mat frame, CV_SettingsWidget *W)
 
     //тут уже точно имеем три области нужной конфигурации
 
+    double MAX_VAL_1 = 0;  //тут будет максимальное соответствие
+    double MAX_VAL_2 = 0;
+    double MAX_VAL_3 = 0;
 
+    int FINAL_1 = -1;  //тут будет номер соответствия
+    int FINAL_2 = -1;
+    int FINAL_3 = -1;
 
-return frame;
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    if(abs(rects.at(0).y-rects.at(1).y)>4 || abs(rects.at(1).y-rects.at(2).y)>4)
-        return frame;
-
-    double h0 = rects.at(0).height;
-    double h1 = rects.at(1).height;
-    double h2 = rects.at(2).height;
-
-    double w0 = rects.at(0).width;
-    double w1 = rects.at(1).width;
-    double w2 = rects.at(2).width;
-
-    if (h1==0 || h2==0 || w1==0 || w2==0)
-        return frame;
-
-    if(     abs(1.0 - h0/h1)<=0.35 &&
-            abs(1.0 - h0/h2)<=0.35
-            )
+    for(int i=0; i<6; i++)  //цикл по 6 хвостам из массива tmpl_arr
     {
+        QList<QList<int>> ref_1 = NEW_neuralNet::tmpl_arr.at(3*i);
+        QList<QList<int>> ref_2 = NEW_neuralNet::tmpl_arr.at(3*i + 1);
+        QList<QList<int>> ref_3 = NEW_neuralNet::tmpl_arr.at(3*i + 2);
 
-        for(int i=0; i<3; i++)
+        double r1 = 100*(double(ref_1.at(0).size()) / double(ref_1.size()));  //конфигурация шаблонов
+        double r2 = 100*(double(ref_2.at(0).size()) / double(ref_2.size()));
+        double r3 = 100*(double(ref_3.at(0).size()) / double(ref_3.size()));
+
+        double prop_1 = 100*(double(rectList[0].rect.width) / double(rectList[0].rect.height));  //конфигурация найденных букв
+        double prop_2 = 100*(double(rectList[1].rect.width) / double(rectList[1].rect.height));
+        double prop_3 = 100*(double(rectList[2].rect.width) / double(rectList[2].rect.height));
+
+        double d1 = abs(prop_1-r1);
+        double d2 = abs(prop_2-r2);
+        double d3 = abs(prop_3-r3);
+
+        if(!(d1<10 && d2<10 && d3<10))
+            continue;
+
+        //тут точно знаем, что шаблоны совместимы, т.е. 1 с W сравнивать не будем
+
+        Mat letter_1 = show(rectList.at(0).rect);  //вырезаем буквы
+        Mat letter_2 = show(rectList.at(1).rect);
+        Mat letter_3 = show(rectList.at(2).rect);
+
+        resize(letter_1, letter_1, Size(ref_1.at(0).size(), ref_1.size()));  //приводим к размеру шаблонов
+        resize(letter_2, letter_2, Size(ref_2.at(0).size(), ref_2.size()));
+        resize(letter_3, letter_3, Size(ref_3.at(0).size(), ref_3.size()));
+
+        int res_1 = 0;
+
+        for(int rows = 0; rows<letter_1.rows; rows++)
         {
-            Rect rect = rects.at(i);
-
-            Mat part_origin = show(rect);///вырезать выделенный прямоугольник из кадра
-            Mat part_tmpl;
-
-            int RES = 0;
-            int num = 0;
-
-
-            for(int j = 0; j<6; j++)///проверка шести шаблонов
+            for(int cols = 0; cols<letter_1.cols; cols++)
             {
-                Mat part;
-                part_tmpl = CV_TextDetect::tmpl_arr[j+i*6];
-
-                double d1 = part_origin.rows;
-                double d2 = part_origin.cols;
-                double d01 = part_tmpl.rows;
-                double d02 = part_tmpl.cols;
-                if(d2==0 || d02==0)
-                    break;
-                double dor = d1/d2;
-                double dtm = d01/d02;
-
-                if(dor>4.5)
-                {
-                    num = 3;
-                    break;
-                }
-
-                if(dor<2.0)
-                {
-                    num = 4;
-                    break;
-                }
-
-                if(abs(dor-dtm)>0.3)
-                    continue;
-
-                resize(part_origin, part, part_tmpl.size());
-
-                int res = 0;
-
-                for(int rows = 0; rows<part_tmpl.rows; rows++)
-                {
-                    for(int cols = 0; cols<part_tmpl.cols; cols++)
-                    {
-                        if(part.at<Vec3b>(rows, cols)[0]==0
-                                && part.at<Vec3b>(rows, cols)[1]==255
-                                && part.at<Vec3b>(rows, cols)[2]==0
-                                && part_tmpl.at<Vec3b>(rows, cols)[0]==0
-                                && part_tmpl.at<Vec3b>(rows, cols)[1]==0
-                                && part_tmpl.at<Vec3b>(rows, cols)[2]==0
-                                )
-                            res++;
-                    }
-                }
-
-                if (RES<res)///выбор наибольшего соответствия
-                {
-                    RES=res;
-                    num = j;
-                }
-            }
-
-            NUMS.append(num);
-
-
-
-            drawContours( show, contours, rectpos.at(i),  CV_RGB(255, 0, 0), 2, LINE_8, -1, 0 );
-            rectangle(show, rect, CV_RGB(0, 255, 0), 3, 8, 0);
-            int x = rect.x + rect.width/2;
-            int y = rect.y + rect.height/2;
-
-            putText(show, "+",   Point2i(x,y), CV_FONT_HERSHEY_COMPLEX, 1, Scalar(255, 0, 0), 2);
-
-            if (NUMS.size()==3)
-            {
-                qDebug()<<"  "<<NUMS.at(0)+1<<" "<<NUMS.at(1)+1<<" "<<NUMS.at(2)+1;
-                show = CV_TextDetect::PrintAns(show, NUMS);
-
-                break;
+                if((letter_1.at<Vec3b>(rows, cols)[0]==0
+                        && letter_1.at<Vec3b>(rows, cols)[1]==255
+                        && letter_1.at<Vec3b>(rows, cols)[2]==0
+                        && ref_1.at(rows).at(cols)==1)
+                        ||
+                        (letter_1.at<Vec3b>(rows, cols)[0]==0
+                        && letter_1.at<Vec3b>(rows, cols)[1]==0
+                        && letter_1.at<Vec3b>(rows, cols)[2]==0
+                        && ref_1.at(rows).at(cols)==0)
+                        )
+                    res_1++;
             }
         }
+
+        int res_2 = 0;
+
+        for(int rows = 0; rows<letter_2.rows; rows++)
+        {
+            for(int cols = 0; cols<letter_2.cols; cols++)
+            {
+                if((letter_2.at<Vec3b>(rows, cols)[0]==0
+                        && letter_2.at<Vec3b>(rows, cols)[1]==255
+                        && letter_2.at<Vec3b>(rows, cols)[2]==0
+                        && ref_2.at(rows).at(cols)==1)
+                        ||
+                        (letter_2.at<Vec3b>(rows, cols)[0]==0
+                        && letter_2.at<Vec3b>(rows, cols)[1]==0
+                        && letter_2.at<Vec3b>(rows, cols)[2]==0
+                        && ref_2.at(rows).at(cols)==0)
+                        )
+                    res_2++;
+            }
+        }
+
+        int res_3 = 0;
+
+        for(int rows = 0; rows<letter_3.rows; rows++)
+        {
+            for(int cols = 0; cols<letter_3.cols; cols++)
+            {
+                if((letter_3.at<Vec3b>(rows, cols)[0]==0
+                        && letter_3.at<Vec3b>(rows, cols)[1]==255
+                        && letter_3.at<Vec3b>(rows, cols)[2]==0
+                        && ref_3.at(rows).at(cols)==1)
+                        ||
+                        (letter_3.at<Vec3b>(rows, cols)[0]==0
+                        && letter_3.at<Vec3b>(rows, cols)[1]==0
+                        && letter_3.at<Vec3b>(rows, cols)[2]==0
+                        && ref_3.at(rows).at(cols)==0)
+                        )
+                    res_3++;
+            }
+        }
+
+        double S1 = 100 * double(res_1) / double(letter_1.rows * letter_1.cols);
+        double S2 = 100 * double(res_2) / double(letter_2.rows * letter_2.cols);
+        double S3 = 100 * double(res_3) / double(letter_3.rows * letter_3.cols);
+
+        if(S1>MAX_VAL_1)
+        {
+            MAX_VAL_1 = S1;
+            FINAL_1 = i+1;
+        }
+
+        if(S2>MAX_VAL_2)
+        {
+            MAX_VAL_2 = S2;
+            FINAL_2 = i+1;
+        }
+
+        if(S3>MAX_VAL_3)
+        {
+            MAX_VAL_3 = S3;
+            FINAL_3 = i+1;
+        }
+
+        //qDebug() << i+1 << ":        " << S1 << "   " << S2 << "   " << S3;
     }
 
-    cvtColor(show, show, CV_RGB2BGR);
-    return show;*/
+    qDebug() << FINAL_1 << "  " << FINAL_2 << "  " << FINAL_3;
+
+    Mat resultMat = NEW_neuralNet::PrintAnswer(show, FINAL_1, FINAL_2, FINAL_3);
+
+    cv::cvtColor(resultMat, resultMat, CV_RGB2BGR);
+
+    return resultMat;
+}
+
+Mat NEW_neuralNet::PrintAnswer(Mat show, int FINAL_1, int FINAL_2, int FINAL_3)
+{
+    if(FINAL_1==1 && FINAL_2==1 && FINAL_3==1)  //A: UH8
+    {
+        CV_Detect::TYPE = TYPE_TEXT;
+        putText(show, "A",   Point2i(50, 100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(255, 0, 0), 2);
+    }
+
+    if(FINAL_1==2 && FINAL_2==2 && FINAL_3==2)  //B: L6R
+    {
+        CV_Detect::TYPE = TYPE_TEXT;
+        putText(show, "B",   Point2i(50, 100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(255, 255, 0), 2);
+    }
+
+    if(FINAL_1==3 && FINAL_2==3 && FINAL_3==3)  //C: G7C
+    {
+        CV_Detect::TYPE = TYPE_TEXT;
+        putText(show, "C",   Point2i(50, 100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(0, 0, 255), 2);
+    }
+
+    if(FINAL_1==4 && FINAL_2==4 && FINAL_3==4)  //D: S1P
+    {
+        CV_Detect::TYPE = TYPE_TEXT;
+        putText(show, "D",   Point2i(50, 100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(255, 0, 0), 2);
+    }
+
+    if(FINAL_1==5 && FINAL_2==5 && FINAL_3==5)  //E: JW3
+    {
+        CV_Detect::TYPE = TYPE_TEXT;
+        putText(show, "E",   Point2i(50, 100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(255, 255, 0), 2);
+    }
+
+    if(FINAL_1==6 && FINAL_2==6 && FINAL_3==6)  //F: A2X
+    {
+        CV_Detect::TYPE = TYPE_TEXT;
+        putText(show, "F",   Point2i(50, 100), CV_FONT_HERSHEY_COMPLEX, 3, cv::Scalar(0, 0, 255), 2);
+    }
+
+    return show;
 }
 
 void NEW_neuralNet::Generate(Mat frame, CV_SettingsWidget *W)
@@ -238,8 +281,7 @@ void NEW_neuralNet::Generate(Mat frame, CV_SettingsWidget *W)
     cvtColor(tmp, tmp, CV_RGB2GRAY);
     findContours(tmp, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
 
-    QList<Rect> rects;
-    QList<int> rectpos;
+    QList<RECT> rects;
 
     for(unsigned int i=0;i<contours.size();i++)
     {
@@ -249,8 +291,7 @@ void NEW_neuralNet::Generate(Mat frame, CV_SettingsWidget *W)
                 break;
 
             Rect rect = boundingRect(contours[i]);
-            rects << rect;
-            rectpos << i;
+            rects << RECT(rect, i);
         }
     }
 
@@ -261,15 +302,11 @@ void NEW_neuralNet::Generate(Mat frame, CV_SettingsWidget *W)
     {
         for(int j=0; j<3; j++)
         {
-            if(i<j && rects.at(i).x>rects.at(j).x)
+            if(i<j && rects[i].rect.x>rects[j].rect.x)
             {
-                Rect tmpr = rects.at(i);
+                RECT tmpr = rects.at(i);
                 rects[i] = rects.at(j);
                 rects[j] = tmpr;
-
-                int tmpp = rectpos.at(i);
-                rectpos[i] = rectpos.at(j);
-                rectpos[j] = tmpp;
             }
         }
     }
@@ -284,7 +321,7 @@ void NEW_neuralNet::Generate(Mat frame, CV_SettingsWidget *W)
 
     for(int i=0; i<3; i++)
     {
-        Rect rect = rects.at(i);
+        Rect rect = rects.at(i).rect;
 
         Mat part_origin = show(rect);///вырезать выделенный прямоугольник из кадра
 

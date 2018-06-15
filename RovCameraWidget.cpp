@@ -3,7 +3,8 @@
 #include <QCameraInfo>
 #include <QVBoxLayout>
 
-QList<cv::Mat> CV_TextDetect::tmpl_arr = QList<cv::Mat>();
+QList<Mat> CV_TextDetect::tmpl_arr = QList<Mat>();
+QList<QList<QList<int>>> NEW_neuralNet::tmpl_arr = QList<QList<QList<int>>>();
 type CV_Detect::TYPE = TYPE_FIGURE;
 figureColor CV_Detect::COLOR = BLACK_;
 
@@ -14,13 +15,46 @@ RovCameraWidget::RovCameraWidget(QWidget* parent)
     , m_cameraList(new QComboBox)
     , m_refreshButton(new QPushButton(tr("Обновить")))
 {
-    for(int i=1; i<=3; i++)
+    for(int i=1; i<=6; i++)
     {
-        for(int j=1; j<=6; j++)
+        QFile file(QCoreApplication::applicationDirPath()+"/res/" + QString::number(i) + ".txt");
+        if (!file.open(QIODevice::ReadOnly))
+            break;
+        QTextStream in(&file);
+
+        int num;
+        in >> num;
+
+        if(num!=i)
+            break;
+
+
+        for(int r = 1; r <= 3; r++)
         {
-            std::string str =  (QCoreApplication::applicationDirPath()+"/tmpl/simple/"+QString::number(i)+"_"+QString::number(j)+".jpg").toStdString();
-            CV_TextDetect::tmpl_arr.append(imread(str));
+            int cols_r;
+            int rows_r;
+            in >> cols_r >> rows_r;
+
+            QList<QList<int>> tmp_mat;
+
+            for(int rows = 0; rows < rows_r; rows++)
+            {
+                QList<int> tmp_row;
+
+                for(int cols = 0; cols < cols_r; cols++)
+                {
+                    int tmp;
+                    in >> tmp;
+
+                    tmp_row << tmp;
+                }
+
+                tmp_mat << tmp_row;
+            }
+
+            NEW_neuralNet::tmpl_arr.append(tmp_mat);
         }
+
     }
 
     m_settings->hide();
@@ -88,8 +122,8 @@ void RovCameraWidget::Detect()
 
     if(CV_Detect::TYPE == TYPE_FIGURE)
         imshow("detect", showimg);
-    //else if(CV_Detect::TYPE == TYPE_TEXT)
-       // imshow("detect", showtxt);
+    else if(CV_Detect::TYPE == TYPE_TEXT)
+        imshow("detect", shownew);
     else imshow("detect",  frame);
 
 }
