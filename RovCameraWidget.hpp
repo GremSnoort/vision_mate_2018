@@ -13,7 +13,6 @@
 #include "opencv2/highgui/highgui.hpp"
 
 #include "cv_colorfiguredetect.h"
-#include "cv_textdetect.h"
 #include "new_neuralnet.h"
 
 using namespace cv;

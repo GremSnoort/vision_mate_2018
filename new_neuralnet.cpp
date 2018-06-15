@@ -60,7 +60,7 @@ bool NEW_neuralNet::PropertiesAreValid(QList<RECT> rectList)
     if(!(h01<=10 && h12<=10))
         return false;
 
-    double r0 = 100*(double(rectList[0].rect.width) / double(rectList[0].rect.height));  //проверка по конфигурации
+    /*double r0 = 100*(double(rectList[0].rect.width) / double(rectList[0].rect.height));  //проверка по конфигурации
     double r1 = 100*(double(rectList[1].rect.width) / double(rectList[1].rect.height));
     double r2 = 100*(double(rectList[2].rect.width) / double(rectList[2].rect.height));
 
@@ -69,7 +69,7 @@ bool NEW_neuralNet::PropertiesAreValid(QList<RECT> rectList)
             && r2>29.00 && r2<38.00))
         return false;
 
-    //qDebug() << r0 << "   " << r1 << "    " << r2;
+    qDebug() << r0 << "   " << r1 << "    " << r2;*/
     return true;
 }
 
@@ -122,8 +122,8 @@ Mat NEW_neuralNet::Detect(Mat frame, CV_SettingsWidget *W)
         double d2 = abs(prop_2-r2);
         double d3 = abs(prop_3-r3);
 
-        if(!(d1<10 && d2<10 && d3<10))
-            continue;
+        //if(!(d1<10 && d2<10 && d3<10))
+          //  continue;
 
         //тут точно знаем, что шаблоны совместимы, т.е. 1 с W сравнивать не будем
 
@@ -217,7 +217,7 @@ Mat NEW_neuralNet::Detect(Mat frame, CV_SettingsWidget *W)
             FINAL_3 = i+1;
         }
 
-        //qDebug() << i+1 << ":        " << S1 << "   " << S2 << "   " << S3;
+        qDebug() << i+1 << ":        " << S1 << "   " << S2 << "   " << S3;
     }
 
     qDebug() << FINAL_1 << "  " << FINAL_2 << "  " << FINAL_3;

@@ -3,7 +3,6 @@
 #include <QCameraInfo>
 #include <QVBoxLayout>
 
-QList<Mat> CV_TextDetect::tmpl_arr = QList<Mat>();
 QList<QList<QList<int>>> NEW_neuralNet::tmpl_arr = QList<QList<QList<int>>>();
 type CV_Detect::TYPE = TYPE_FIGURE;
 figureColor CV_Detect::COLOR = BLACK_;
